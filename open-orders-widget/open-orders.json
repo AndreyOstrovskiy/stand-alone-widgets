@@ -4,7 +4,7 @@
   "currency": "UAH",
   "open_orders_MSU": "97.5",
   "start_MBDAT": "01.01.2020",
-  "pxResults": [
+  "categories": [
     { "name": "Oral Care", "value": "2.8" },
     { "name": "Baby Care", "value": "15.6" },
     { "name": "Appliances", "value": "12.3" },

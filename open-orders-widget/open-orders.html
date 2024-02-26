@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Open Orders Widget</title>
+    <link rel="stylesheet" href="../common/common.css" />
+    <link rel="stylesheet" href="open-orders.css" />
+    <script src="../common/common.js" defer></script>
+    <script src="open-orders.js" defer></script>
+    <script
+      type="text/javascript"
+      src="https://www.gstatic.com/charts/loader.js"
+      defer
+    ></script>
+  </head>
+  <body>
+    <div id="main-widget-container">
+      <template id="loader">
+        <div class="row-wrap-container">
+          <span class="loader"></span>
+        </div>
+      </template>
+      <template id="error-fetch-data">
+        <div class="row-wrap-container">
+          <span>Error occured while fetching data</span>
+        </div>
+      </template>
+      <template id="widget">
+        <div id="main">
+          <span>Test</span>
+        </div>
+      </template>
+    </div>
+  </body>
+</html>
