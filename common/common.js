@@ -1,3 +1,4 @@
+// Get data from JSON file
 function fetchJSONData(path) {
   return new Promise((resolve, reject) => {
     fetch(path)
@@ -14,6 +15,7 @@ function fetchJSONData(path) {
   });
 }
 
+// Create i icon function
 function createIIcon(elem, text) {
   const IIcon = document.createElement('div');
   IIcon.classList.add('i_icon_tooltip');
@@ -29,3 +31,120 @@ function createIIcon(elem, text) {
 
   return IIcon;
 }
+
+// Set actions for i icon
+function setIIconActionsHandler(IIconElement, IconMessage) {
+  IIconElement.addEventListener('mouseenter', () => {
+    IIconElement.appendChild(createIIcon(IIconElement, IconMessage));
+  });
+
+  IIconElement.addEventListener('mouseleave', () => {
+    IIconElement.removeChild(IIconElement.lastElementChild);
+  });
+}
+
+// Initialization of the widget based on templates
+function init(
+  mainWorkingArea,
+  loadTemplate,
+  errorTemplate,
+  errorMessageSpan,
+  renderWidgetHandler
+) {
+  const clonLoadTemplate = loadTemplate.content.cloneNode(true);
+  mainWorkingArea.appendChild(clonLoadTemplate);
+
+  const JSON_FILE_PATH = './open-orders.json';
+
+  fetchJSONData(JSON_FILE_PATH)
+    .then((data) => {
+      clearMainWorkingArea(mainWorkingArea);
+      renderWidgetHandler(data);
+    })
+    .catch((e) => {
+      const FETCHING_DATA_ERROR = 'Unable to fetch data';
+      renderErrorMessage(
+        FETCHING_DATA_ERROR,
+        `'Unable to fetch data: ${e}`,
+        mainWorkingArea,
+        errorTemplate,
+        errorMessageSpan
+      );
+    });
+}
+
+// Delete all child elements
+function clearMainWorkingArea(mainWorkingArea) {
+  while (mainWorkingArea.lastElementChild) {
+    mainWorkingArea.removeChild(mainWorkingArea.lastElementChild);
+  }
+}
+
+// Render error message
+function renderErrorMessage(
+  errorMessage = 'Error occured',
+  error,
+  mainWorkingArea,
+  errorTemplate,
+  errorMessageSpanId
+) {
+  clearMainWorkingArea(mainWorkingArea);
+
+  const clonErrorTemplate = errorTemplate.content.cloneNode(true);
+
+  const errorMessageSpan = clonErrorTemplate.querySelector(
+    `#${errorMessageSpanId}`
+  );
+  errorMessageSpan.textContent = errorMessage;
+
+  mainWorkingArea.appendChild(clonErrorTemplate);
+
+  console.error(error);
+}
+
+/*
+  Next block is using only in Open Orders widget, but potentially can be used in any other
+
+==========================================================================================
+*/
+
+// Convert number to international currency system
+function convertToInternationalCurrencySystem(
+  labelValue = 0,
+  pointNotation = 0
+) {
+  return Math.abs(Number(labelValue)) >= 1.0e9
+    ? {
+        value: (Math.abs(Number(labelValue)) / 1.0e9).toFixed(pointNotation),
+        measuer: 'B',
+      }
+    : Math.abs(Number(labelValue)) >= 1.0e6
+    ? {
+        value: (Math.abs(Number(labelValue)) / 1.0e6).toFixed(pointNotation),
+        measuer: 'M',
+      }
+    : Math.abs(Number(labelValue)) >= 1.0e3
+    ? {
+        value: (Math.abs(Number(labelValue)) / 1.0e3).toFixed(pointNotation),
+        measuer: 'K',
+      }
+    : {
+        value: Math.abs(Number(labelValue)),
+        measure: '',
+      };
+}
+
+// Get currency symbol
+function getCurrencySymbol(locale = 'en-US', currency) {
+  return (0)
+    .toLocaleString(locale, {
+      style: 'currency',
+      currency: currency,
+    })
+    .replace(/\d./g, '')
+    .trim();
+}
+
+/*
+==========================================================================================
+*/
