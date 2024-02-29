@@ -1,4 +1,17 @@
-function initOoWidget() {
+import {
+  init,
+  setIIconActionsHandler,
+  clearMainWorkingArea,
+  renderErrorMessage,
+  convertToInternationalCurrencySystem,
+  getCurrencySymbol,
+} from '../../common/logic/common.js';
+
+export function initOoWidgetForOnePage(path) {
+  initOoWidget(path);
+}
+
+function initOoWidget(path) {
   const mainWidgetContainer = document.getElementById(
     'oo-main-widget-container'
   );
@@ -6,7 +19,10 @@ function initOoWidget() {
   const loadTemplate = mainWidgetContainer.querySelector('#oo-loader');
   const errorFetchDataTemplate = mainWidgetContainer.querySelector('#oo-error');
 
+  const JSON_FILE_PATH = path ? path : './static/open-orders.json';
+
   init(
+    JSON_FILE_PATH,
     mainWorkingArea,
     loadTemplate,
     errorFetchDataTemplate,

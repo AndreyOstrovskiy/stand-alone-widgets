@@ -33,7 +33,7 @@ function createIIcon(elem, text) {
 }
 
 // Set actions for i icon
-function setIIconActionsHandler(IIconElement, IconMessage) {
+export function setIIconActionsHandler(IIconElement, IconMessage) {
   IIconElement.addEventListener('mouseenter', () => {
     IIconElement.appendChild(createIIcon(IIconElement, IconMessage));
   });
@@ -44,7 +44,8 @@ function setIIconActionsHandler(IIconElement, IconMessage) {
 }
 
 // Initialization of the widget based on templates
-function init(
+export function init(
+  JsonFilePath,
   mainWorkingArea,
   loadTemplate,
   errorTemplate,
@@ -54,9 +55,7 @@ function init(
   const clonLoadTemplate = loadTemplate.content.cloneNode(true);
   mainWorkingArea.appendChild(clonLoadTemplate);
 
-  const JSON_FILE_PATH = './open-orders.json';
-
-  fetchJSONData(JSON_FILE_PATH)
+  fetchJSONData(JsonFilePath)
     .then((data) => {
       clearMainWorkingArea(mainWorkingArea);
       renderWidgetHandler(data);
@@ -74,14 +73,14 @@ function init(
 }
 
 // Delete all child elements
-function clearMainWorkingArea(mainWorkingArea) {
+export function clearMainWorkingArea(mainWorkingArea) {
   while (mainWorkingArea.lastElementChild) {
     mainWorkingArea.removeChild(mainWorkingArea.lastElementChild);
   }
 }
 
 // Render error message
-function renderErrorMessage(
+export function renderErrorMessage(
   errorMessage = 'Error occured',
   error,
   mainWorkingArea,
@@ -109,7 +108,7 @@ function renderErrorMessage(
 */
 
 // Convert number to international currency system
-function convertToInternationalCurrencySystem(
+export function convertToInternationalCurrencySystem(
   labelValue = 0,
   pointNotation = 0
 ) {
@@ -135,7 +134,7 @@ function convertToInternationalCurrencySystem(
 }
 
 // Get currency symbol
-function getCurrencySymbol(locale = 'en-US', currency) {
+export function getCurrencySymbol(locale = 'en-US', currency) {
   return (0)
     .toLocaleString(locale, {
       style: 'currency',
