@@ -1,0 +1,30 @@
+@import url('../../common/styles/common.css');
+
+/*Open order widget personal style*/
+.oo {
+  min-width: 216px;
+  min-height: 200px;
+}
+.oo_msu {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+.oo_data {
+  flex: 0 0 5%;
+  justify-content: center;
+}
+.oo_msu_text {
+  padding-bottom: 5px;
+}
+.oo_chart {
+  flex: 0 1 95%;
+}
+.oo_msu_layout {
+  margin: 0px 12px 12px 0px;
+}
+.oo_value_layout {
+  margin: 12px 12px 0px 0px;
+}
