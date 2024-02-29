@@ -1,9 +1,13 @@
+import { initOoWidget } from '../../open-orders-widget/logic/utils/utils-open-orders.js';
+
 function renderOnePage() {
   addOpenOrdersWidgetHtml();
 }
 
 function addOpenOrdersWidgetHtml() {
   const filePath = '../../src/open-orders-widget/open-orders.html';
+  const ooWidgetDataPath =
+    '../../src/open-orders-widget/static/open-orders.json';
 
   getHtmlFile(filePath)
     .then((html) => {
@@ -16,10 +20,7 @@ function addOpenOrdersWidgetHtml() {
 
       openOrdersEl.appendChild(widgetEl);
 
-      import('../../open-orders-widget/logic/open-orders.js').then((mod) => {
-        const path = '../../src/open-orders-widget/static/open-orders.json';
-        mod.initOoWidgetForOnePage(path);
-      });
+      initOoWidget(ooWidgetDataPath);
     })
     .catch((err) => {
       console.log('Error rendering Open Orders Widget: ', err);
