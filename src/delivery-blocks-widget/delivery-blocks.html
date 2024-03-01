@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Delivery Blocks Widget</title>
+    <link rel="stylesheet" href="./styles/delivery-blocks.css" />
+    <script
+      type="text/javascript"
+      src="https://www.gstatic.com/charts/loader.js"
+      defer
+    ></script>
+    <script type="module" src="./logic/delivery-blocks.js"></script>
+  </head>
+  <body>
+    <div id="db-main-widget-container">
+      <template id="db-loader">
+        <div class="row-wrap-container">
+          <span class="loader"></span>
+        </div>
+      </template>
+      <template id="db-error">
+        <div class="row-wrap-container">
+          <span id="db-error-message"></span>
+        </div>
+      </template>
+      <template id="db-widget">
+        <div class="db data_area">
+          <div class="header_with_icon_container">
+            <div class="header_with_icon_header">
+              <h2># of total order blocks</h2>
+            </div>
+            <div
+              class="header_with_icon_header_i_icon"
+              id="db_header_with_icon_header_i_icon"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M7.99997 0.615234C3.90766 0.615234 0.615356 3.90754 0.615356 7.99985C0.615356 12.0922 3.90766 15.3845 7.99997 15.3845C12.0923 15.3845 15.3846 12.0922 15.3846 7.99985C15.3846 3.90754 12.0923 0.615234 7.99997 0.615234ZM7.99997 13.5383C4.92305 13.5383 2.46151 11.0768 2.46151 7.99985C2.46151 4.92293 4.92305 2.46139 7.99997 2.46139C11.0769 2.46139 13.5384 4.92293 13.5384 7.99985C13.5384 11.0768 11.0769 13.5383 7.99997 13.5383ZM7.99997 4.33831C8.52305 4.33831 8.92305 4.73831 8.92305 5.26139C8.92305 5.78447 8.52305 6.18447 7.99997 6.18447C7.47689 6.18447 7.07689 5.78447 7.07689 5.26139C7.07689 4.73831 7.47689 4.33831 7.99997 4.33831ZM9.53843 10.7999C9.53843 10.9537 9.41536 11.0768 9.23074 11.0768H6.7692C6.61536 11.0768 6.46151 10.9845 6.46151 10.7999V10.1845C6.46151 10.0306 6.58459 9.846 6.7692 9.846C6.92305 9.846 7.07689 9.7537 7.07689 9.56908V8.33831C7.07689 8.18447 6.95382 7.99985 6.7692 7.99985C6.61536 7.99985 6.46151 7.90754 6.46151 7.72293V7.10754C6.46151 6.9537 6.58459 6.76908 6.7692 6.76908H8.61536C8.7692 6.76908 8.92305 6.92293 8.92305 7.10754V9.56908C8.92305 9.72293 9.04613 9.846 9.23074 9.846C9.38459 9.846 9.53843 9.99985 9.53843 10.1845V10.7999Z"
+                  fill="#706E6B"
+                />
+              </svg>
+            </div>
+          </div>
+          <div class="flexed jcSB">
+            <div id="db_total" class="data_area">
+              <h1>
+                <span></span>
+              </h1>
+              <h3>Total</h3>
+            </div>
+            <div id="db_chart" class="db_chart"></div>
+          </div>
+        </div>
+      </template>
+      <div id="db-working-area" class="main_items_border"></div>
+    </div>
+  </body>
+</html>

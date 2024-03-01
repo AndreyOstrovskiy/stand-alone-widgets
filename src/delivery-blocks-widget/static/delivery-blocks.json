@@ -1,0 +1,34 @@
+{
+  "delivery_blocks_total": "1245",
+  "from_date": "06.02.2024",
+  "delivery_blocks": [
+    {
+      "name": "E1",
+      "value": "0"
+    },
+    {
+      "name": "S4",
+      "value": "4"
+    },
+    {
+      "name": "LO",
+      "value": "11"
+    },
+    {
+      "name": "09",
+      "value": "320"
+    },
+    {
+      "name": "ZE",
+      "value": "62"
+    },
+    {
+      "name": "ZR",
+      "value": "27"
+    },
+    {
+      "name": "Others",
+      "value": "821"
+    }
+  ]
+}
