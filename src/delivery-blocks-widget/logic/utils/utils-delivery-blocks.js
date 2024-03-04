@@ -135,8 +135,7 @@ export function initDbWidget(pathForOnePage) {
         chartArea: {
           left: 50,
           top: 10,
-          width: '90%',
-          height: '75%',
+          height: '80%',
         },
         height: 200,
         annotations: {

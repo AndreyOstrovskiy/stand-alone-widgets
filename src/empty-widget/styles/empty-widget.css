@@ -1,0 +1,27 @@
+@import url(../../common/styles/common.css);
+
+/*Empty Widget*/
+.ew_wrapper {
+  flex: 0 0 100%;
+}
+.ew_main {
+  display: flex;
+  height: 550px;
+  flex-shrink: 0;
+  border-radius: 3px;
+  border: 1px solid #ecebea;
+  background: #f7f7f8;
+}
+.ew_container {
+  display: flex;
+  flex-shrink: 0;
+  margin: 29px 0px 0px 14px;
+}
+.ew_text {
+  color: rgba(8, 7, 7, 0.3);
+  font-family: Segoe UI;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 16px;
+}
