@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Capacity Alert Widget</title>
+    <link rel="stylesheet" href="./styles/capacity-alert.css" />
+    <!-- <script src="../../Chart-JS/Chart.min.js"></script> -->
+    <script src="../../Chart-JS/Chart.bundle.min.js"></script>
+    <script type="module" src="./logic/capacity-alert.js"></script>
+  </head>
+  <body>
+    <div id="ca-main-widget-container">
+      <template id="ca-loader">
+        <div class="row-wrap-container">
+          <span class="loader"></span>
+        </div>
+      </template>
+      <template id="ca-error">
+        <div class="row-wrap-container">
+          <span id="ca-error-message"></span>
+        </div>
+      </template>
+      <template id="ca-widget">
+        <div class="data_area">
+          <h2># trucks per day (RDD)</h2>
+        </div>
+        <div class="ca_legend">
+          <div class="ca_red_cube"></div>
+          <span>Exceeding truck receiving constraints</span>
+        </div>
+        <div>
+          <canvas id="ca_chart"></canvas>
+        </div>
+      </template>
+      <div id="ca-working-area" class="main_items_border"></div>
+    </div>
+  </body>
+</html>
