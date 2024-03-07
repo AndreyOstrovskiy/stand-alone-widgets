@@ -3,6 +3,7 @@
     {
       "date": "2024-02-06",
       "date_to_display": "06.02",
+      "is_over_limit": "false",
       "number_of_trucks": "0",
       "shipTo_details": []
     },
@@ -44,14 +45,44 @@
     {
       "date": "2024-02-11",
       "date_to_display": "11.02",
-      "is_over_limit": "false",
-      "number_of_trucks": "3",
+      "is_over_limit": "true",
+      "number_of_trucks": "6",
       "shipTo_details": [
+        {
+          "is_over_limit": "true",
+          "location": "2002206229",
+          "location_name": "0815 ONLINE HANDEL GMBH",
+          "number_of_trucks": "1"
+        },
         {
           "is_over_limit": "false",
           "location": "2002206229",
           "location_name": "0815 ONLINE HANDEL GMBH",
-          "number_of_trucks": "3"
+          "number_of_trucks": "1"
+        },
+        {
+          "is_over_limit": "false",
+          "location": "2002206229",
+          "location_name": "0815 ONLINE HANDEL GMBH",
+          "number_of_trucks": "1"
+        },
+        {
+          "is_over_limit": "false",
+          "location": "2002206229",
+          "location_name": "0815 ONLINE HANDEL GMBH",
+          "number_of_trucks": "1"
+        },
+        {
+          "is_over_limit": "false",
+          "location": "2002206229",
+          "location_name": "0815 ONLINE HANDEL GMBH",
+          "number_of_trucks": "1"
+        },
+        {
+          "is_over_limit": "false",
+          "location": "2002206229",
+          "location_name": "0815 ONLINE HANDEL GMBH",
+          "number_of_trucks": "1"
         }
       ]
     },
@@ -92,7 +123,7 @@
         {
           "is_over_limit": "false",
           "location": "2000121188",
-          "location_name": "SPAR OESTERR.WARENHANDELS AG",
+          "location_name": "SPAR OESTERR WARENHANDELS AG",
           "number_of_trucks": "1"
         }
       ]
@@ -101,22 +132,49 @@
       "date": "2024-02-17",
       "date_to_display": "17.02",
       "is_over_limit": "false",
-      "number_of_trucks": "0",
-      "shipTo_details": []
+      "number_of_trucks": "2",
+      "shipTo_details": [
+        {
+          "is_over_limit": "false",
+          "location": "2000121188",
+          "location_name": "SPAR OESTERR WARENHANDELS AG",
+          "number_of_trucks": "1"
+        },
+        {
+          "is_over_limit": "false",
+          "location": "2000121188",
+          "location_name": "SPAR OESTERR WARENHANDELS AG",
+          "number_of_trucks": "1"
+        }
+      ]
     },
     {
       "date": "2024-02-18",
       "date_to_display": "18.02",
       "is_over_limit": "false",
-      "number_of_trucks": "0",
-      "shipTo_details": []
+      "number_of_trucks": "1",
+      "shipTo_details": [
+        {
+          "is_over_limit": "false",
+          "location": "2000121188",
+          "location_name": "SPAR OESTERR WARENHANDELS AG",
+          "number_of_trucks": "1"
+        }
+      ]
     },
     {
       "date": "2024-02-19",
       "date_to_display": "19.02",
-      "is_over_limit": "false",
-      "number_of_trucks": "0",
-      "shipTo_details": []
+      "is_over_limit": "true",
+      "number_of_trucks": "1",
+      "shipTo_details": [
+        {
+          "is_over_limit": "true",
+          "location": "2000121188",
+          "location_name": "SPAR OESTERR WARENHANDELS AG",
+          "number_of_trucks": "1"
+        }
+      ]
     }
   ]
 }

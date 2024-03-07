@@ -1,5 +1,16 @@
 @import url(../../common/styles/common.css);
 
+#ca-working-area {
+  height: 268px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+.ca_chart_container {
+  position: relative;
+  height: inherit;
+}
 .ca_red_cube {
   width: 17px;
   height: 11px;
@@ -48,10 +59,8 @@
 }
 .ca_scroll_table thead th {
   text-align: left;
-  border: none;
   padding: 5px 10px;
   font-size: 14px;
-  border-left: 1px solid #ddd;
   border-right: 1px solid #ddd;
   font-family: 'Segoe UI';
   font-style: normal;
@@ -68,7 +77,6 @@
 }
 .ca_scroll_table tbody td {
   text-align: left;
-  border-left: 1px solid #ddd;
   border-right: 1px solid #ddd;
   padding: 5px 10px;
   vertical-align: top;
@@ -77,7 +85,7 @@
   font-weight: 400;
   font-size: 13px;
   line-height: 20px;
-  border: 1px solid #dddbda;
+  border-bottom: 1px solid #dddbda;
   color: #3e3e3c;
 }
 .ca_scroll_table tbody td:nth-child(1) {
@@ -114,46 +122,46 @@
 .ca_close:after {
   transform: rotate(-45deg);
 }
-.google-visualization-tooltip {
-  top: -60px !important;
+#ca-tooltip {
+  /* top: -60px !important; */
   width: 321px;
   height: 352px;
   background-color: #16325c !important;
   position: relative;
 }
-.ca_arrow_left .google-visualization-tooltip:after,
-.ca_arrow_left .google-visualization-tooltip:before {
+.ca_arrow_left:after,
+.ca_arrow_left:before {
   content: '';
   border: solid transparent;
   position: absolute;
   right: 100%;
   top: 50%;
 }
-.ca_arrow_left .google-visualization-tooltip:after {
+.ca_arrow_left:after {
   border-right-color: #16325c;
   border-width: 8px;
   margin-top: -8px;
 }
-.ca_arrow_left .google-visualization-tooltip:before {
+.ca_arrow_left:before {
   border-right-color: #16325c;
   border-width: 9px;
   margin-top: -9px;
 }
 
-.ca_arrow_right .google-visualization-tooltip:after,
-.ca_arrow_right .google-visualization-tooltip:before {
+.ca_arrow_right:after,
+.ca_arrow_right:before {
   content: '';
   border: solid transparent;
   position: absolute;
   left: 100%;
   top: 50%;
 }
-.ca_arrow_right .google-visualization-tooltip:after {
+.ca_arrow_right:after {
   border-left-color: #16325c;
   border-width: 8px;
   margin-top: -8px;
 }
-.ca_arrow_right .google-visualization-tooltip:before {
+.ca_arrow_right:before {
   border-left-color: #16325c;
   border-width: 9px;
   margin-top: -9px;

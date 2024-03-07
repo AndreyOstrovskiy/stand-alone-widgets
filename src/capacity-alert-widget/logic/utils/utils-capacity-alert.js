@@ -16,6 +16,12 @@ export function initCaWidget(pathForOnePage) {
     ? pathForOnePage
     : './static/capacity-alert.json';
 
+  const DEFAULT_TOOLTIP_WIDTH = 320;
+  const DEFAULT_TOOLTIP_HEIGHT = 352;
+  const DEFAULT_TOOLTIP_GAP = 15;
+  const RIGHT = 'RIGHT';
+  const LEFT = 'LEFT';
+
   init(
     JSON_FILE_PATH,
     mainWorkingArea,
@@ -48,7 +54,15 @@ export function initCaWidget(pathForOnePage) {
 
     const chartCanvas = mainWorkingArea.querySelector('#ca_chart');
 
+    const colors = [];
+
     const labels = data.days.map((day) => {
+      if (day.is_over_limit === 'true') {
+        colors.push('#F2536D');
+      } else {
+        colors.push('#3290ED');
+      }
+
       return day.date_to_display;
     });
 
@@ -56,32 +70,202 @@ export function initCaWidget(pathForOnePage) {
       return day.number_of_trucks;
     });
 
-    function renderTooltip() {
-      // Tooltip Element
-      var tooltipEl = document.getElementById('chartjs-tooltip');
-
-      // Create element on first render
-      if (!tooltipEl) {
-        tooltipEl = document.createElement('div');
-        tooltipEl.id = 'chartjs-tooltip';
-        tooltipEl.innerHTML = '<table></table>';
-        document.body.appendChild(tooltipEl);
+    function removeAllChildEl(node) {
+      while (node.lastElementChild) {
+        node.removeChild(node.lastElementChild);
       }
-      tooltipEl.style.opacity = 1;
-      //   tooltipEl.style.left = position.left + tooltipModel.caretX + 'px';
-      tooltipEl.style.left = '30px';
-      //   tooltipEl.style.top = position.top + tooltipModel.caretY + 'px';
-      tooltipEl.style.top = '30px';
-      tooltipEl.style.fontFamily = Chart.defaults.global.defaultFontFamily;
-      tooltipEl.style.fontSize = Chart.defaults.global.defaultFontSize;
-      tooltipEl.style.fontStyle = 'normal';
-      //   tooltipEl.style.padding =
-      //     tooltipModel.yPadding + 'px ' + tooltipModel.xPadding + 'px';
-      tooltipEl.style.padding = '30' + 'px ' + '30' + 'px';
     }
 
-    function setValuesAbove(chart) {
-      const chartInstance = chart;
+    function createTooltip(dataArray) {
+      if (!dataArray) {
+        return '<div id="unvisible" class="unvisible"></div>';
+      }
+      const tooltipHtml = document.createElement('div');
+      tooltipHtml.classList.add('ca_tooltip');
+
+      const tableDiv = document.createElement('div');
+      tableDiv.id = 'ca_table';
+
+      const closeDiv = document.createElement('div');
+      closeDiv.classList.add('ca_close');
+      closeDiv.id = 'ca_close';
+
+      const tableHeader = [];
+      const tableData = [];
+
+      tableHeader.push(['Location', 'No. of trucks']);
+
+      for (const el of dataArray) {
+        tableData.push([
+          el.location_name,
+          el.number_of_trucks,
+          el.is_over_limit,
+        ]);
+      }
+
+      createTableHandler(tableHeader, tableData, tableDiv);
+
+      tooltipHtml.appendChild(tableDiv);
+      tooltipHtml.appendChild(closeDiv);
+
+      return tooltipHtml.outerHTML;
+    }
+
+    function createTableHandler(tableHeader, tableData, appendToElem) {
+      const divTableHandler = document.createElement('div');
+      divTableHandler.classList.add('ca_scroll_table');
+      const divHeader = document.createElement('div');
+      divHeader.classList.add('ca_scroll_table_header');
+      createTable(tableHeader, divHeader, true);
+
+      divTableHandler.appendChild(divHeader);
+
+      const divBody = document.createElement('div');
+      divBody.classList.add('ca_scroll_table_body');
+      createTable(tableData, divBody, false);
+
+      divTableHandler.appendChild(divBody);
+
+      appendToElem.appendChild(divTableHandler);
+    }
+
+    function createTable(tableData, appendToElem, isHeader) {
+      const table = document.createElement('table');
+
+      const tableContent = isHeader
+        ? document.createElement('thead')
+        : document.createElement('tbody');
+
+      tableData.forEach(function (rowData) {
+        const row = document.createElement('tr');
+
+        rowData.forEach(function (cellData, index) {
+          let cell;
+          if (isHeader) {
+            cell = document.createElement('th');
+          } else {
+            if (index === 2) {
+              return;
+            }
+            cell = document.createElement('td');
+            if (rowData[2] === 'true') {
+              if (index === 1) {
+                cell.classList.add('ca_over_limit');
+              }
+            }
+          }
+
+          cell.appendChild(document.createTextNode(cellData));
+          row.appendChild(cell);
+        });
+
+        tableContent.appendChild(row);
+      });
+
+      table.appendChild(tableContent);
+      appendToElem.appendChild(table);
+    }
+
+    const renderTooltip = (context) => {
+      console.log(context);
+      let tooltipEl = document.getElementById('ca-tooltip');
+
+      if (!tooltipEl) {
+        tooltipEl = document.createElement('div');
+        tooltipEl.id = 'ca-tooltip';
+        document.body.appendChild(tooltipEl);
+      } else {
+        if (context.opacity === 0) {
+          tooltipEl.remove();
+        }
+        removeAllChildEl(tooltipEl);
+      }
+
+      if (context.opacity === 0) {
+        tooltipEl.style.opacity = 0;
+        return;
+      }
+      tooltipEl.classList.remove('above', 'below', 'no-transform');
+      if (context.yAlign) {
+        tooltipEl.classList.add(context.yAlign);
+      } else {
+        tooltipEl.classList.add('no-transform');
+      }
+
+      const index = context.dataPoints[0].index;
+      const dataArray = data.days[index].shipTo_details;
+
+      const tooltipElHtml = createTooltip(dataArray);
+      tooltipEl.insertAdjacentHTML('beforeend', tooltipElHtml);
+
+      let tooltipWidth = tooltipEl
+        ? parseInt(tooltipEl.offsetWidth)
+        : DEFAULT_TOOLTIP_WIDTH;
+
+      const tooltipHeight = tooltipEl
+        ? parseInt(tooltipEl.offsetHeight)
+        : DEFAULT_TOOLTIP_HEIGHT;
+
+      const tooltipGap = DEFAULT_TOOLTIP_GAP;
+
+      const targetX = parseInt(context.caretX);
+      const targetHalfWidth = parseInt(meta.data[index]._model.width) / 2;
+      const chartElementWidth = parseInt(chartCanvas.offsetWidth);
+
+      const positionOfTooltip =
+        targetX + tooltipWidth + tooltipGap > chartElementWidth ? RIGHT : LEFT;
+
+      if (positionOfTooltip === RIGHT) {
+        tooltipEl.classList.remove('ca_arrow_left');
+        tooltipEl.classList.add('ca_arrow_right');
+      } else {
+        tooltipEl.classList.remove('ca_arrow_right');
+        tooltipEl.classList.add('ca_arrow_left');
+      }
+
+      const position = chartCanvas.getBoundingClientRect();
+      console.log(position);
+
+      tooltipEl.style.opacity = 1;
+      tooltipEl.style.position = 'absolute';
+      if (positionOfTooltip === LEFT) {
+        tooltipEl.style.left =
+          position.left + context.caretX + targetHalfWidth + tooltipGap + 'px';
+      } else {
+        tooltipEl.style.left =
+          position.left +
+          context.caretX -
+          targetHalfWidth -
+          tooltipWidth -
+          tooltipGap +
+          'px';
+      }
+      console.log(meta);
+      tooltipEl.style.top =
+        position.top +
+        context.caretY +
+        (meta.data[index]._model.base - meta.data[index]._model.y) / 2 -
+        tooltipHeight / 2 +
+        'px';
+
+      const tableBody = tooltipEl.querySelector('.ca_scroll_table_body');
+      const tableHeader = tooltipEl.querySelector('.ca_scroll_table_header');
+
+      if (tableBody.scrollHeight <= tableBody.clientHeight) {
+        tableHeader.style.paddingRight = '0px';
+        tableBody.style.height = 'auto';
+      }
+
+      const closeEl = tooltipEl.querySelector('#ca_close');
+
+      closeEl.addEventListener('click', closeClickHandler);
+
+      function closeClickHandler() {
+        tooltipEl.remove();
+      }
+    };
+
+    function setValuesAbove(chartInstance) {
       if (chartInstance.config.options.showDatapoints) {
         const helpers = Chart.helpers;
         const ctx = chartInstance.chart.ctx;
@@ -128,6 +312,7 @@ export function initCaWidget(pathForOnePage) {
       datasets: [
         {
           data: values,
+          backgroundColor: colors,
         },
       ],
     };
@@ -137,7 +322,8 @@ export function initCaWidget(pathForOnePage) {
       showDatapoints: true,
       maintainAspectRatio: false,
       tooltips: {
-        custom: renderTooltip(),
+        enabled: false,
+        custom: renderTooltip,
       },
       animation: {
         duration: 0,
@@ -187,6 +373,8 @@ export function initCaWidget(pathForOnePage) {
 
     const caChart = new Chart(chartCanvas, chartConfig);
     setValuesAbove(caChart);
+
+    const meta = caChart.getDatasetMeta(0);
 
     Chart.plugins.register({
       afterDraw: function (chartInstance) {
