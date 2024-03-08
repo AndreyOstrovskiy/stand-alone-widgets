@@ -5,7 +5,7 @@ import {
   renderErrorMessage,
   convertToInternationalCurrencySystem,
   getCurrencySymbol,
-} from '../../../common/logic/common.js';
+} from '../../../../common/logic/common.js';
 
 export function initOoWidget(pathForOnePage) {
   const mainWidgetContainer = document.getElementById(

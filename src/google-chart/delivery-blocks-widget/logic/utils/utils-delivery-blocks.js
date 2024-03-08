@@ -3,7 +3,7 @@ import {
   setIIconActionsHandler,
   clearMainWorkingArea,
   renderErrorMessage,
-} from '../../../common/logic/common.js';
+} from '../../../../common/logic/common.js';
 
 export function initDbWidget(pathForOnePage) {
   const URL = 'https://www.google.com/';

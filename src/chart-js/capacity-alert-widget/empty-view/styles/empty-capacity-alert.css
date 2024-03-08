@@ -1,0 +1,6 @@
+@import url(../../../../empty-widget/styles/empty-widget.css);
+@import url(../../../../common/styles/common.css);
+
+.widget_height {
+  height: 268px;
+}

@@ -7,9 +7,10 @@ function renderOnePage() {
 }
 
 function addOpenOrdersWidgetHtml() {
-  const filePath = '../../src/open-orders-widget/open-orders.html';
+  const filePath =
+    '../../../src/google-chart/open-orders-widget/open-orders.html';
   const ooWidgetDataPath =
-    '../../src/open-orders-widget/static/open-orders.json';
+    '../../../src/google-chart/open-orders-widget/static/open-orders.json';
 
   getHtmlFile(filePath)
     .then((html) => {
@@ -30,9 +31,10 @@ function addOpenOrdersWidgetHtml() {
 }
 
 function addDeliveryBlocksWidgetHtml() {
-  const filePath = '../../src/delivery-blocks-widget/delivery-blocks.html';
+  const filePath =
+    '../../../src/google-chart/delivery-blocks-widget/delivery-blocks.html';
   const dbWidgetDataPath =
-    '../../src/delivery-blocks-widget/static/delivery-blocks.json';
+    '../../../src/google-chart/delivery-blocks-widget/static/delivery-blocks.json';
 
   getHtmlFile(filePath)
     .then((html) => {
