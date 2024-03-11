@@ -163,7 +163,6 @@ export function initCaWidget(pathForOnePage) {
     }
 
     const renderTooltip = (context) => {
-      console.log(context);
       let tooltipEl = document.getElementById('ca-tooltip');
 
       if (!tooltipEl) {
@@ -220,7 +219,6 @@ export function initCaWidget(pathForOnePage) {
       }
 
       const position = chartCanvas.getBoundingClientRect();
-      console.log(position);
 
       tooltipEl.style.opacity = 1;
       tooltipEl.style.position = 'absolute';
@@ -236,7 +234,7 @@ export function initCaWidget(pathForOnePage) {
           tooltipGap +
           'px';
       }
-      console.log(meta);
+
       tooltipEl.style.top =
         position.top +
         context.caretY +
