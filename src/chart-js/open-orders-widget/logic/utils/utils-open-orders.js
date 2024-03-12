@@ -122,6 +122,8 @@ export function initOoWidget(pathForOnePage) {
 
     function drawOoChart() {
       const DEFAULT_Y_GAP = 3.5;
+      const DEFAULT_X_GAP_RIGHT = 20;
+      const DEFAULT_X_GAP_LEFT = 20;
 
       const colors = [];
 
@@ -136,17 +138,16 @@ export function initOoWidget(pathForOnePage) {
       });
 
       function setValuesAbove(chartInstance) {
-        console.log(chartInstance);
         if (chartInstance.config.options.showDatapoints) {
           const ctx = chartInstance.chart.ctx;
 
           ctx.font = Chart.helpers.fontString(12, 'normal', 'Segoe UI');
           ctx.textAlign = 'center';
           ctx.textBaseline = 'bottom';
-          ctx.fillStyle = '#2B2826';
 
           chartInstance.data.datasets.forEach(function (dataset) {
             dataset.data.forEach((elem, index) => {
+              ctx.fillStyle = '#2B2826';
               const model =
                 dataset._meta[Object.keys(dataset._meta)[0]].data[index]._model;
               const xScale =
@@ -156,19 +157,15 @@ export function initOoWidget(pathForOnePage) {
               let xPos;
 
               if ((scaleMax - model.x) / scaleMax >= 0) {
-                xPos = model.x + 20;
+                xPos = model.x + DEFAULT_X_GAP_RIGHT;
               } else {
-                console.log('else');
-                xPos = model.x - 20;
-                // xScale.ctx.fillStyle = 'white';
-                console.log(dataset);
+                xPos = model.x - DEFAULT_X_GAP_LEFT;
+                ctx.fillStyle = '#ffffff';
               }
 
               const yPos = model.y + model.height / 2 - DEFAULT_Y_GAP;
 
               ctx.fillText(dataset.data[index], xPos, yPos);
-              console.log('ctx');
-              console.log(ctx);
             });
           });
         }
@@ -228,7 +225,7 @@ export function initOoWidget(pathForOnePage) {
                 display: false,
               },
               ticks: {
-                max: Math.max(...ooData.datasets[0].data) + 1,
+                max: Math.max(...ooData.datasets[0].data) + 0.1,
                 display: false,
                 beginAtZero: true,
                 stepSize: 0.1,

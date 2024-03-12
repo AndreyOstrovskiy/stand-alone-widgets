@@ -261,21 +261,12 @@ export function initCaWidget(pathForOnePage) {
 
     function setValuesAbove(chartInstance) {
       if (chartInstance.config.options.showDatapoints) {
-        const helpers = Chart.helpers;
         const ctx = chartInstance.chart.ctx;
-        const fontColor = helpers.getValueOrDefault(
-          chartInstance.config.options.showDatapoints.fontColor,
-          chartInstance.config.options.defaultFontColor
-        );
 
-        ctx.font = Chart.helpers.fontString(
-          Chart.defaults.global.defaultFontSize,
-          'normal',
-          Chart.defaults.global.defaultFontFamily
-        );
+        ctx.font = Chart.helpers.fontString(13, 'normal', 'Segoe UI');
         ctx.textAlign = 'center';
         ctx.textBaseline = 'bottom';
-        ctx.fillStyle = fontColor;
+        ctx.fillStyle = '#2B2826';
 
         chartInstance.data.datasets.forEach(function (dataset) {
           dataset.data.forEach((elem, index) => {
@@ -294,13 +285,6 @@ export function initCaWidget(pathForOnePage) {
       }
     }
 
-    Chart.defaults.global.defaultFontColor = '#3E3E3C';
-    Chart.defaults.global.defaultFontFamily = 'Segoe UI';
-    Chart.defaults.global.defaultFontSize = 13;
-    Chart.defaults.global.legend.display = false;
-    Chart.defaults.global.elements.rectangle.backgroundColor = '#3290ED';
-    Chart.defaults.global.elements.rectangle.borderWidth = 0;
-
     const caData = {
       labels: labels,
       datasets: [
@@ -315,6 +299,9 @@ export function initCaWidget(pathForOnePage) {
       events: ['click'],
       showDatapoints: true,
       maintainAspectRatio: false,
+      legend: {
+        display: false,
+      },
       tooltips: {
         enabled: false,
         custom: renderTooltip,
@@ -339,6 +326,10 @@ export function initCaWidget(pathForOnePage) {
             },
             ticks: {
               display: true,
+              fontColor: '#2B2826',
+              fontFamily: 'Segoe UI',
+              fontSize: 13,
+              fontStyle: 'normal',
             },
           },
         ],
