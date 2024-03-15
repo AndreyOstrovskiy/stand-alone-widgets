@@ -163,7 +163,9 @@ export function initOoWidget(pathForOnePage) {
                 ctx.fillStyle = '#ffffff';
               }
 
-              const yPos = model.y + model.height / 2 - DEFAULT_Y_GAP;
+              const yPos =
+                model.y +
+                ctx.measureText(dataset.data[index]).fontBoundingBoxAscent / 2;
 
               ctx.fillText(dataset.data[index], xPos, yPos);
             });
