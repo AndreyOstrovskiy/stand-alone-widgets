@@ -1,0 +1,58 @@
+/*Open order widget personal style*/
+.oo-working-area {
+  min-width: 216px;
+  height: 268px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+.oo-widget {
+  flex: 0 1 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+.oo {
+  flex: 0 1 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+.oo_header {
+  flex: 0 0 5%;
+}
+.oo_msu {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+.oo_data_container {
+  flex: 0 1 95%;
+}
+.oo_data {
+  flex: 0 0 5%;
+  justify-content: center;
+}
+.oo_msu_text {
+  padding-bottom: 5px;
+}
+.oo_msu_layout {
+  margin: 0px 12px 12px 0px;
+}
+.oo_value_layout {
+  margin: 12px 12px 0px 0px;
+}
+.oo_chart {
+  flex: 0 1 95%;
+  display: flex;
+  flex-direction: column;
+}
+.oo_chart_container {
+  position: relative;
+  flex: 0 1 100%;
+  width: 99%;
+}

@@ -1,0 +1,17 @@
+{
+  "end_MBDAT": "10.10.2023",
+  "open_orders_summary_value": "115631232.23",
+  "currency": "EUR",
+  "open_orders_MSU": "97.5",
+  "start_MBDAT": "01.01.2020",
+  "categories": [
+    { "name": "Oral Care", "value": "2.8" },
+    { "name": "Baby Care", "value": "15.6" },
+    { "name": "Appliances", "value": "12.3" },
+    { "name": "Fabric Care", "value": "16.8" },
+    { "name": "Shave Care", "value": "0.8" },
+    { "name": "Home Care", "value": "8.8" },
+    { "name": "Hair Care", "value": "0.1" },
+    { "name": "Feminine Care", "value": "0.3" }
+  ]
+}
