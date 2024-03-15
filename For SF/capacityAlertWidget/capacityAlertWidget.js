@@ -10,7 +10,6 @@ export default class CapacityAlertWidget extends LightningElement {
   caChart;
   chartCanvas;
   chartCtx;
-  isAnimationInProgress = true;
 
   @api setWidgetData(widgetData) {
     const tooltipEl = document.querySelector(`[data-id="ca-tooltip"]`);
@@ -18,20 +17,14 @@ export default class CapacityAlertWidget extends LightningElement {
     if (this.caChart) {
       try {
         this.data = JSON.parse(this.widgetData);
+        const parsedData = this.parseData(this.data);
+        const labels = parsedData.labels;
+        const values = parsedData.values;
+        const colours = parsedData.colours;
 
-        this.caChart.data.labels = this.data.days.map((day) => {
-          return day.date_to_display;
-        });
-
-        this.caChart.data.datasets[0].data = this.data.days.map((day) => {
-          return day.number_of_trucks;
-        });
-
-        this.caChart.data.datasets[0].backgroundColor = this.data.days.map(
-          (day) => {
-            return day.is_over_limit === 'true' ? '#F2536D' : '#3290ED';
-          }
-        );
+        this.caChart.data.labels = labels;
+        this.caChart.data.datasets[0].data = values;
+        this.caChart.data.datasets[0].backgroundColor = colours;
 
         this.caChart.update();
       } catch (error) {
@@ -46,8 +39,8 @@ export default class CapacityAlertWidget extends LightningElement {
   connectedCallback() {
     Promise.all([
       loadStyle(this, chartjs + '/TruckCapacity/capacityAlertWidget.css'),
-      loadStyle(this, chartjs + '/TruckCapacity/common.css'),
-      loadScript(this, chartjs + '/TruckCapacity/chartjs_v280.js'),
+      loadStyle(this, chartjs + '/Common/common.css'),
+      loadScript(this, chartjs + '/chartjs_v280.js'),
     ])
       .then(() => {
         this.renderWidget();
@@ -58,30 +51,37 @@ export default class CapacityAlertWidget extends LightningElement {
       });
   }
 
+  parseData(data) {
+    return {
+      labels: data.days.map((day) => {
+        return day.date_to_display;
+      }),
+      values: data.days.map((day) => {
+        return day.number_of_trucks;
+      }),
+      colours: data.days.map((day) => {
+        return day.is_over_limit === 'true' ? '#F2536D' : '#3290ED';
+      }),
+    };
+  }
+
   renderWidget() {
     try {
       this.data = JSON.parse(this.widgetData);
       this.chartCanvas = Common.getElByDataId(this, 'ca_chart');
       this.chartCtx = this.chartCanvas.getContext('2d');
 
-      const labels = this.data.days.map((day) => {
-        return day.date_to_display;
-      });
-
-      const values = this.data.days.map((day) => {
-        return day.number_of_trucks;
-      });
-
-      const colors = this.data.days.map((day) => {
-        return day.is_over_limit === 'true' ? '#F2536D' : '#3290ED';
-      });
+      const parsedData = this.parseData(this.data);
+      const labels = parsedData.labels;
+      const values = parsedData.values;
+      const colours = parsedData.colours;
 
       const caData = {
         labels: labels,
         datasets: [
           {
             data: values,
-            backgroundColor: colors,
+            backgroundColor: colours,
           },
         ],
       };
@@ -370,9 +370,9 @@ export default class CapacityAlertWidget extends LightningElement {
 
   setValuesAbove(chartInstance) {
     try {
-      const DEFAULT_TOP_GAP = 20;
-      const DEFAULT_BUTTOM_GAP = 5;
       if (chartInstance.config.options.showDatapoints) {
+        const DEFAULT_TOP_GAP = 20;
+        const DEFAULT_BUTTOM_GAP = 5;
         const ctx = chartInstance.chart.ctx;
 
         ctx.font = Chart.helpers.fontString(13, 'normal', 'Segoe UI');

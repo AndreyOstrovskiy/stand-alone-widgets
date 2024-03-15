@@ -1,0 +1,58 @@
+<template>
+  <lightning-card>
+    <div class="oo-main-widget-container">
+      <div data-id="oo-working-area" class="main_items_border oo-working-area">
+        <div data-id="oo-widget" class="oo-widget">
+          <div class="oo data_area jcSB">
+            <div class="oo_header header_with_icon_container">
+              <div class="header_with_icon_header">
+                <h2>Open orders</h2>
+              </div>
+              <div
+                class="header_with_icon_header_i_icon"
+                data-id="oo_header_with_icon_header_i_icon"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M7.99997 0.615234C3.90766 0.615234 0.615356 3.90754 0.615356 7.99985C0.615356 12.0922 3.90766 15.3845 7.99997 15.3845C12.0923 15.3845 15.3846 12.0922 15.3846 7.99985C15.3846 3.90754 12.0923 0.615234 7.99997 0.615234ZM7.99997 13.5383C4.92305 13.5383 2.46151 11.0768 2.46151 7.99985C2.46151 4.92293 4.92305 2.46139 7.99997 2.46139C11.0769 2.46139 13.5384 4.92293 13.5384 7.99985C13.5384 11.0768 11.0769 13.5383 7.99997 13.5383ZM7.99997 4.33831C8.52305 4.33831 8.92305 4.73831 8.92305 5.26139C8.92305 5.78447 8.52305 6.18447 7.99997 6.18447C7.47689 6.18447 7.07689 5.78447 7.07689 5.26139C7.07689 4.73831 7.47689 4.33831 7.99997 4.33831ZM9.53843 10.7999C9.53843 10.9537 9.41536 11.0768 9.23074 11.0768H6.7692C6.61536 11.0768 6.46151 10.9845 6.46151 10.7999V10.1845C6.46151 10.0306 6.58459 9.846 6.7692 9.846C6.92305 9.846 7.07689 9.7537 7.07689 9.56908V8.33831C7.07689 8.18447 6.95382 7.99985 6.7692 7.99985C6.61536 7.99985 6.46151 7.90754 6.46151 7.72293V7.10754C6.46151 6.9537 6.58459 6.76908 6.7692 6.76908H8.61536C8.7692 6.76908 8.92305 6.92293 8.92305 7.10754V9.56908C8.92305 9.72293 9.04613 9.846 9.23074 9.846C9.38459 9.846 9.53843 9.99985 9.53843 10.1845V10.7999Z"
+                    fill="#706E6B"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div class="oo_data_container flex_row_nowrap">
+              <div class="oo_data flex_column">
+                <div class="oo_msu_layout jcSB oo_msu">
+                  <h1>
+                    <span data-id="open-orders-msu"></span>
+                  </h1>
+                  <h3 class="oo_msu_text">MSU</h3>
+                </div>
+                <div class="oo_value_layout jcSB">
+                  <div data-id="oo_summary" class="oo_msu_layout jcSB oo_msu">
+                    <h3 data-id="oo_currency" class="oo_msu_text"></h3>
+                    <h1 data-id="oo_value"></h1>
+                    <h3 data-id="oo_measure" class="oo_msu_text"></h3>
+                  </div>
+                </div>
+              </div>
+              <div data-id="oo_chart" class="oo_chart">
+                <div class="oo_chart_container">
+                  <canvas data-id="oo_chart_canvas"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </lightning-card>
+</template>

@@ -1,0 +1,12 @@
+<template>
+  <button data-id="dataTemplate1">Data Template 1</button>
+  <button data-id="dataTemplate2">Data Template 2</button>
+  <div if:true="{jsonData}">
+    <c-open-order-widget widget-data="{jsonData}"></c-open-order-widget>
+  </div>
+  <div if:false="{jsonData}">
+    <lightning-card>
+      <p>No Open Orders Widget data</p>
+    </lightning-card>
+  </div>
+</template>

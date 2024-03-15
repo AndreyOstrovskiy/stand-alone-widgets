@@ -265,7 +265,7 @@ export default class WidgetContainer extends LightningElement {
       "date": "2024-02-08",
       "date_to_display": "08.02",
       "is_over_limit": "false",
-      "number_of_trucks": "1",
+      "number_of_trucks": "2",
       "shipTo_details": [
         {
           "is_over_limit": "false",
@@ -279,7 +279,7 @@ export default class WidgetContainer extends LightningElement {
       "date": "2024-02-09",
       "date_to_display": "09.02",
       "is_over_limit": "false",
-      "number_of_trucks": "2",
+      "number_of_trucks": "4",
       "shipTo_details": [
         {
           "is_over_limit": "false",
