@@ -202,52 +202,10 @@ export default class WidgetContainer extends LightningElement {
       "date": "2024-02-06",
       "date_to_display": "06.02",
       "is_over_limit": "true",
-      "number_of_trucks": "8",
+      "number_of_trucks": "1",
       "shipTo_details": [
         {
           "is_over_limit": "true",
-          "location": "2002206229",
-          "location_name": "0815 ONLINE HANDEL GMBH",
-          "number_of_trucks": "1"
-        },
-        {
-          "is_over_limit": "true",
-          "location": "2002206229",
-          "location_name": "0815 ONLINE HANDEL GMBH",
-          "number_of_trucks": "1"
-        },
-        {
-          "is_over_limit": "false",
-          "location": "2002206229",
-          "location_name": "0815 ONLINE HANDEL GMBH",
-          "number_of_trucks": "1"
-        },
-        {
-          "is_over_limit": "false",
-          "location": "2002206229",
-          "location_name": "0815 ONLINE HANDEL GMBH",
-          "number_of_trucks": "1"
-        },
-        {
-          "is_over_limit": "false",
-          "location": "2002206229",
-          "location_name": "0815 ONLINE HANDEL GMBH",
-          "number_of_trucks": "1"
-        },
-        {
-          "is_over_limit": "false",
-          "location": "2002206229",
-          "location_name": "0815 ONLINE HANDEL GMBH",
-          "number_of_trucks": "1"
-        },
-        {
-          "is_over_limit": "false",
-          "location": "2002206229",
-          "location_name": "0815 ONLINE HANDEL GMBH",
-          "number_of_trucks": "1"
-        },
-        {
-          "is_over_limit": "false",
           "location": "2002206229",
           "location_name": "0815 ONLINE HANDEL GMBH",
           "number_of_trucks": "1"

@@ -1,8 +1,5 @@
 import { LightningElement } from 'lwc';
 export default class Common_Widget extends LightningElement {
-  IIconEl;
-  IconMsg;
-
   // Get element by data-id attr
   static getElByDataId(node, id) {
     return node.template.querySelector(`[data-id="${id}"]`);
@@ -24,52 +21,6 @@ export default class Common_Widget extends LightningElement {
       IIcon.style.left = leftValue + 'px';
 
       return IIcon;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  // Set actions for i icon
-  static setIIconActionsHandler(IIconElement, IconMessage) {
-    this.IIconEl = IIconElement;
-    this.IconMsg = IconMessage;
-
-    this.IIconEl.addEventListener(
-      'mouseenter',
-      this.mouseEnterEventHandler.bind(this)
-    );
-    this.IIconEl.addEventListener(
-      'mouseleave',
-      this.mouseLeaveEventHandler.bind(this)
-    );
-  }
-
-  // Remove Listeners
-  static removeIIconActionsHandler(IIconElement, IconMessage) {
-    this.IIconEl = IIconElement;
-    this.IconMsg = IconMessage;
-
-    this.IIconEl.removeEventListener(
-      'mouseenter',
-      this.mouseEnterEventHandler.bind(this)
-    );
-    this.IIconEl.removeEventListener(
-      'mouseleave',
-      this.mouseLeaveEventHandler.bind(this)
-    );
-  }
-
-  static mouseEnterEventHandler() {
-    try {
-      this.IIconEl.appendChild(this.createIIcon(this.IIconEl, this.IconMsg));
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  static mouseLeaveEventHandler() {
-    try {
-      this.IIconEl.removeChild(this.IIconEl.lastElementChild);
     } catch (error) {
       console.error(error);
     }

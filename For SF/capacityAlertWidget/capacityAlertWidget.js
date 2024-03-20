@@ -12,27 +12,15 @@ export default class CapacityAlertWidget extends LightningElement {
   chartCtx;
 
   @api setWidgetData(widgetData) {
-    const tooltipEl = document.querySelector(`[data-id="ca-tooltip"]`);
-    if (tooltipEl) tooltipEl.remove();
-    if (this.caChart) {
-      try {
-        this.data = JSON.parse(this.widgetData);
-        const parsedData = this.parseData(this.data);
-        const labels = parsedData.labels;
-        const values = parsedData.values;
-        const colours = parsedData.colours;
-
-        this.caChart.data.labels = labels;
-        this.caChart.data.datasets[0].data = values;
-        this.caChart.data.datasets[0].backgroundColor = colours;
-
-        this.caChart.update();
-      } catch (error) {
-        console.error(error);
-      }
-    } else {
+    if (!widgetData) return;
+    try {
+      if (this.caChart) this.caChart.destroy();
+      const tooltipEl = document.querySelector(`[data-id="ca-tooltip"]`);
+      if (tooltipEl) tooltipEl.remove();
       this.widgetData = widgetData;
       this.renderWidget();
+    } catch (error) {
+      console.error(error);
     }
   }
 
@@ -148,8 +136,6 @@ export default class CapacityAlertWidget extends LightningElement {
       };
 
       this.caChart = new window.Chart(this.chartCtx, chartConfig);
-
-      this.setValuesAbove(this.caChart);
 
       this.meta = this.caChart.getDatasetMeta(0);
 
@@ -373,6 +359,7 @@ export default class CapacityAlertWidget extends LightningElement {
       if (chartInstance.config.options.showDatapoints) {
         const DEFAULT_TOP_GAP = 20;
         const DEFAULT_BUTTOM_GAP = 5;
+
         const ctx = chartInstance.chart.ctx;
 
         ctx.font = Chart.helpers.fontString(13, 'normal', 'Segoe UI');
@@ -387,15 +374,26 @@ export default class CapacityAlertWidget extends LightningElement {
             const scaleMax =
               dataset._meta[Object.keys(dataset._meta)[0]].data[index]._yScale
                 .maxHeight;
-            const yPos =
-              (scaleMax - model.y) / scaleMax >= 0.93
-                ? model.y + DEFAULT_TOP_GAP
-                : model.y - DEFAULT_BUTTOM_GAP;
+            let yPos;
+            if ((scaleMax - model.y) / scaleMax >= 0.8) {
+              yPos = model.y + DEFAULT_TOP_GAP;
+              const width = ctx.measureText(dataset.data[index]).width;
+              const height = ctx.measureText(
+                dataset.data[index]
+              ).actualBoundingBoxAscent;
+              ctx.fillStyle =
+                this.data.days[index].is_over_limit === 'true'
+                  ? '#F2536D'
+                  : '#3290ED';
+              ctx.fillRect(model.x - width / 2, yPos - height, width, height);
+              ctx.fillStyle = '#ffffff';
+            } else {
+              yPos = model.y - DEFAULT_BUTTOM_GAP;
+              ctx.fillStyle = '#ffffff';
+              ctx.fillText(dataset.data[index], model.x, yPos);
+              ctx.fillStyle = '#2B2826';
+            }
 
-            ctx.fillStyle = '#ffffff';
-            ctx.fillText(dataset.data[index], model.x, yPos);
-
-            ctx.fillStyle = '#2B2826';
             ctx.fillText(dataset.data[index], model.x, yPos);
           });
         });

@@ -28,10 +28,10 @@ export default class WidgetContainer extends LightningElement {
   "open_orders_MSU": "47.5",
   "start_MBDAT": "01.01.2024",
   "categories": [
-    { "name": "Oral Care", "value": "12.8" },
-    { "name": "Baby Care", "value": "15.6" },
-    { "name": "Appliances", "value": "12.3" },
-    { "name": "Fabric Care", "value": "16.8" },
+    { "name": "Oral Care", "value": "2.8" },
+    { "name": "Baby Care", "value": "5.6" },
+    { "name": "Appliances", "value": "2.3" },
+    { "name": "Fabric Care", "value": "6.8" },
     { "name": "Home Care", "value": "8.8" }
   ]
 }

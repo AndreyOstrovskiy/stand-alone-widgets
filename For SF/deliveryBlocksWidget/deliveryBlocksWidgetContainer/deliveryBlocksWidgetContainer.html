@@ -1,0 +1,14 @@
+<template>
+  <button data-id="dataTemplate1">Data Template 1</button>
+  <button data-id="dataTemplate2">Data Template 2</button>
+  <div if:true="{jsonData}">
+    <c-delivery-blocks-widget
+      widget-data="{jsonData}"
+    ></c-delivery-blocks-widget>
+  </div>
+  <div if:false="{jsonData}">
+    <lightning-card>
+      <p>No Delivery Blocks Widget data</p>
+    </lightning-card>
+  </div>
+</template>
