@@ -14,6 +14,8 @@ export default class DeliveryBlocksWidget extends LightningElement {
   deliveryBlocksTotal;
   IIconElement;
   DB_ICON_MESSAGE;
+  mouseEnterEventCallback;
+  mouseLeaveEventCallback;
 
   @api setWidgetData(widgetData) {
     if (!widgetData) return;
@@ -51,22 +53,22 @@ export default class DeliveryBlocksWidget extends LightningElement {
   setIIconActionsHandler() {
     this.IIconElement.addEventListener(
       'mouseenter',
-      this.mouseEnterEventHandler.bind(this)
+      this.mouseEnterEventCallback
     );
     this.IIconElement.addEventListener(
       'mouseleave',
-      this.mouseLeaveEventHandler.bind(this)
+      this.mouseLeaveEventCallback
     );
   }
 
   removeIIconActionsHandler() {
     this.IIconElement.removeEventListener(
       'mouseenter',
-      this.mouseEnterEventHandler.bind(this)
+      this.mouseEnterEventCallback
     );
     this.IIconElement.removeEventListener(
       'mouseleave',
-      this.mouseLeaveEventHandler.bind(this)
+      this.mouseLeaveEventCallback
     );
   }
 
@@ -99,6 +101,9 @@ export default class DeliveryBlocksWidget extends LightningElement {
         this,
         'db_header_with_icon_header_i_icon'
       );
+
+      this.mouseEnterEventCallback = this.mouseEnterEventHandler.bind(this);
+      this.mouseLeaveEventCallback = this.mouseLeaveEventHandler.bind(this);
 
       this.removeIIconActionsHandler();
       this.setIIconActionsHandler();
@@ -150,7 +155,7 @@ export default class DeliveryBlocksWidget extends LightningElement {
           padding: {
             left: 0,
             right: 0,
-            top: 0,
+            top: 20,
             bottom: 0,
           },
         },
@@ -213,7 +218,7 @@ export default class DeliveryBlocksWidget extends LightningElement {
         return block.name;
       }),
       values: data.map((block) => {
-        return block.value;
+        return +block.value;
       }),
       colours: data.map(() => {
         return '#3290ED';

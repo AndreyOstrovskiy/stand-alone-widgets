@@ -1,5 +1,5 @@
 import { LightningElement, track } from 'lwc';
-export default class WidgetContainer extends LightningElement {
+export default class CapacityAlertWidgetForCanadaContainer extends LightningElement {
   jsonData;
   template1 = `
     {
@@ -51,6 +51,7 @@ export default class WidgetContainer extends LightningElement {
       "date_to_display": "11.02",
       "is_over_limit": "true",
       "number_of_trucks": "8",
+      "heated_trucks": "6",
       "shipTo_details": [
         {
           "is_over_limit": "true",
@@ -149,6 +150,7 @@ export default class WidgetContainer extends LightningElement {
       "date_to_display": "17.02",
       "is_over_limit": "false",
       "number_of_trucks": "2",
+      "heated_trucks": "1",
       "shipTo_details": [
         {
           "is_over_limit": "false",
@@ -183,6 +185,7 @@ export default class WidgetContainer extends LightningElement {
       "date_to_display": "19.02",
       "is_over_limit": "true",
       "number_of_trucks": "1",
+      "heated_trucks": "1",
       "shipTo_details": [
         {
           "is_over_limit": "true",
@@ -224,6 +227,7 @@ export default class WidgetContainer extends LightningElement {
       "date_to_display": "08.02",
       "is_over_limit": "false",
       "number_of_trucks": "2",
+      "heated_trucks": "1",
       "shipTo_details": [
         {
           "is_over_limit": "false",
@@ -238,6 +242,7 @@ export default class WidgetContainer extends LightningElement {
       "date_to_display": "09.02",
       "is_over_limit": "false",
       "number_of_trucks": "4",
+      "heated_trucks": "1",
       "shipTo_details": [
         {
           "is_over_limit": "false",
@@ -272,6 +277,7 @@ export default class WidgetContainer extends LightningElement {
       "date_to_display": "12.02",
       "is_over_limit": "false",
       "number_of_trucks": "5",
+      "heated_trucks": "2",
       "shipTo_details": [
         {
           "is_over_limit": "false",
@@ -317,6 +323,7 @@ export default class WidgetContainer extends LightningElement {
       "date_to_display": "14.02",
       "is_over_limit": "false",
       "number_of_trucks": "3",
+      "heated_trucks": "2",
       "shipTo_details": [
         {
           "is_over_limit": "false",
@@ -421,15 +428,14 @@ export default class WidgetContainer extends LightningElement {
   template1BtnClickHandler() {
     this.jsonData = this.template1;
     this.widgetComponent = this.template.querySelector(
-      'c-capacity-alert-widget'
+      'c-capacity-alert-widget-for-canada'
     );
     this.widgetComponent.setWidgetData(this.jsonData);
   }
-
   template2BtnClickHandler() {
     this.jsonData = this.template2;
     this.widgetComponent = this.template.querySelector(
-      'c-capacity-alert-widget'
+      'c-capacity-alert-widget-for-canada'
     );
     this.widgetComponent.setWidgetData(this.jsonData);
   }

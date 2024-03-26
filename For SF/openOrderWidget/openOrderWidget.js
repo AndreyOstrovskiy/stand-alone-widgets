@@ -16,6 +16,8 @@ export default class OpenOrderWidget extends LightningElement {
   endMBDAT;
   IIconElement;
   OO_ICON_MESSAGE;
+  mouseEnterEventCallback;
+  mouseLeaveEventCallback;
 
   @api setWidgetData(widgetData) {
     if (!widgetData) return;
@@ -59,22 +61,22 @@ export default class OpenOrderWidget extends LightningElement {
   setIIconActionsHandler() {
     this.IIconElement.addEventListener(
       'mouseenter',
-      this.mouseEnterEventHandler.bind(this)
+      this.mouseEnterEventCallback
     );
     this.IIconElement.addEventListener(
       'mouseleave',
-      this.mouseLeaveEventHandler.bind(this)
+      this.mouseLeaveEventCallback
     );
   }
 
   removeIIconActionsHandler() {
     this.IIconElement.removeEventListener(
       'mouseenter',
-      this.mouseEnterEventHandler.bind(this)
+      this.mouseEnterEventCallback
     );
     this.IIconElement.removeEventListener(
       'mouseleave',
-      this.mouseLeaveEventHandler.bind(this)
+      this.mouseLeaveEventCallback
     );
   }
 
@@ -105,6 +107,9 @@ export default class OpenOrderWidget extends LightningElement {
       this,
       'oo_header_with_icon_header_i_icon'
     );
+
+    this.mouseEnterEventCallback = this.mouseEnterEventHandler.bind(this);
+    this.mouseLeaveEventCallback = this.mouseLeaveEventHandler.bind(this);
 
     this.removeIIconActionsHandler();
     this.setIIconActionsHandler();
@@ -163,7 +168,7 @@ export default class OpenOrderWidget extends LightningElement {
         return category.name;
       }),
       values: data.map((category) => {
-        return category.value;
+        return +category.value;
       }),
       colours: data.map(() => {
         return '#9D53F2';
@@ -204,7 +209,7 @@ export default class OpenOrderWidget extends LightningElement {
         layout: {
           padding: {
             left: 0,
-            right: 0,
+            right: 40,
             top: 0,
             bottom: 0,
           },
@@ -277,14 +282,15 @@ export default class OpenOrderWidget extends LightningElement {
           dataset.data.forEach((elem, index) => {
             const model =
               dataset._meta[Object.keys(dataset._meta)[0]].data[index]._model;
-            const xScale =
-              dataset._meta[Object.keys(dataset._meta)[0]].data[index]._xScale;
+            const chart =
+              dataset._meta[Object.keys(dataset._meta)[0]].data[index]._chart;
             ctx.font = Chart.helpers.fontString(
               model.height > 13 ? 13 : model.height,
               'normal',
               'Segoe UI'
             );
-            const scaleMax = xScale.maxWidth;
+
+            const scaleMax = chart.width;
             const height = ctx.measureText(
               dataset.data[index]
             ).actualBoundingBoxAscent;

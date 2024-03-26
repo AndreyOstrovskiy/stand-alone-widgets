@@ -1,4 +1,4 @@
-import { LightningElement } from 'lwc';
+import { LightningElement, track } from 'lwc';
 export default class DeliveryBlocksWidgetContainer extends LightningElement {
   jsonData;
   template1 = `
@@ -75,25 +75,47 @@ export default class DeliveryBlocksWidgetContainer extends LightningElement {
 }
 
   `;
+  template1BtnClickCallback;
+  template2BtnClickCallback;
+  widgetComponent;
+  @track hasRendered = false;
 
   renderedCallback() {
-    const template1Btn = this.template.querySelector(
-      '[data-id="dataTemplate1"]'
-    );
-    const template2Btn = this.template.querySelector(
-      '[data-id="dataTemplate2"]'
-    );
-    const widgetComponent = this.template.querySelector(
+    if (!this.hasRendered) {
+      const template1Btn = this.template.querySelector(
+        '[data-id="dataTemplate1"]'
+      );
+      const template2Btn = this.template.querySelector(
+        '[data-id="dataTemplate2"]'
+      );
+
+      this.template1BtnClickCallback = this.template1BtnClickHandler.bind(this);
+      this.template2BtnClickCallback = this.template2BtnClickHandler.bind(this);
+
+      template1Btn.addEventListener('click', this.template1BtnClickCallback);
+      template2Btn.addEventListener('click', this.template2BtnClickCallback);
+      this.hasRendered = true;
+    }
+  }
+
+  disconnectedCallback() {
+    template1Btn.removeEventListener('click', this.template1BtnClickCallback);
+    template2Btn.removeEventListener('click', this.template2BtnClickCallback);
+  }
+
+  template1BtnClickHandler() {
+    this.jsonData = this.template1;
+    this.widgetComponent = this.template.querySelector(
       'c-delivery-blocks-widget'
     );
+    this.widgetComponent.setWidgetData(this.jsonData);
+  }
 
-    template1Btn.addEventListener('click', () => {
-      this.jsonData = this.template1;
-      widgetComponent.setWidgetData(this.jsonData);
-    });
-    template2Btn.addEventListener('click', () => {
-      this.jsonData = this.template2;
-      widgetComponent.setWidgetData(this.jsonData);
-    });
+  template2BtnClickHandler() {
+    this.jsonData = this.template2;
+    this.widgetComponent = this.template.querySelector(
+      'c-delivery-blocks-widget'
+    );
+    this.widgetComponent.setWidgetData(this.jsonData);
   }
 }
