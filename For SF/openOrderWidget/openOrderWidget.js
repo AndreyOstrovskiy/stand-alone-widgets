@@ -6,7 +6,6 @@ import Common from 'c/common_Widget';
 export default class OpenOrderWidget extends LightningElement {
   @api widgetData;
   data;
-  meta;
   ooChart;
   chartCanvas;
   chartCtx;
@@ -15,37 +14,19 @@ export default class OpenOrderWidget extends LightningElement {
   ooData;
   startMBDAT;
   endMBDAT;
+  IIconElement;
   OO_ICON_MESSAGE;
+  mouseEnterEventCallback;
+  mouseLeaveEventCallback;
 
   @api setWidgetData(widgetData) {
-    if (this.ooChart) {
-      try {
-        this.updateValues();
-        const IIconElement = Common.getElByDataId(
-          this,
-          'oo_header_with_icon_header_i_icon'
-        );
-
-        Common.removeIIconActionsHandler(IIconElement, this.OO_ICON_MESSAGE);
-        Common.setIIconActionsHandler(IIconElement, this.OO_ICON_MESSAGE);
-
-        const parsedData = this.parseData(this.ooData);
-        const labels = parsedData.labels;
-        const values = parsedData.values;
-        const colours = parsedData.colours;
-
-        this.ooChart.data.labels = labels;
-        this.ooChart.data.datasets[0].data = values;
-        this.ooChart.data.datasets[0].backgroundColor = colours;
-
-        this.openOrdersValue();
-        this.ooChart.update();
-      } catch (error) {
-        console.error(error);
-      }
-    } else {
+    if (!widgetData) return;
+    try {
+      if (this.ooChart) this.ooChart.destroy();
       this.widgetData = widgetData;
       this.renderWidget();
+    } catch (error) {
+      console.error(error);
     }
   }
 
@@ -77,17 +58,61 @@ export default class OpenOrderWidget extends LightningElement {
     this.OO_ICON_MESSAGE = `These are orders going through the AV cycle from ${this.startMBDAT} to ${this.endMBDAT}`;
   }
 
+  setIIconActionsHandler() {
+    this.IIconElement.addEventListener(
+      'mouseenter',
+      this.mouseEnterEventCallback
+    );
+    this.IIconElement.addEventListener(
+      'mouseleave',
+      this.mouseLeaveEventCallback
+    );
+  }
+
+  removeIIconActionsHandler() {
+    this.IIconElement.removeEventListener(
+      'mouseenter',
+      this.mouseEnterEventCallback
+    );
+    this.IIconElement.removeEventListener(
+      'mouseleave',
+      this.mouseLeaveEventCallback
+    );
+  }
+
+  mouseEnterEventHandler() {
+    try {
+      this.IIconElement.appendChild(
+        Common.createIIcon(this.IIconElement, this.OO_ICON_MESSAGE)
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  mouseLeaveEventHandler() {
+    try {
+      this.IIconElement.removeChild(this.IIconElement.lastElementChild);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   renderWidget() {
     this.updateValues();
 
     this.chartCanvas = Common.getElByDataId(this, 'oo_chart_canvas');
     this.chartCtx = this.chartCanvas.getContext('2d');
-    const IIconElement = Common.getElByDataId(
+    this.IIconElement = Common.getElByDataId(
       this,
       'oo_header_with_icon_header_i_icon'
     );
 
-    Common.setIIconActionsHandler(IIconElement, this.OO_ICON_MESSAGE);
+    this.mouseEnterEventCallback = this.mouseEnterEventHandler.bind(this);
+    this.mouseLeaveEventCallback = this.mouseLeaveEventHandler.bind(this);
+
+    this.removeIIconActionsHandler();
+    this.setIIconActionsHandler();
 
     this.openOrdersValue();
     if (this.ooData && this.ooData.length > 0) {
@@ -143,7 +168,7 @@ export default class OpenOrderWidget extends LightningElement {
         return category.name;
       }),
       values: data.map((category) => {
-        return category.value;
+        return +category.value;
       }),
       colours: data.map(() => {
         return '#9D53F2';
@@ -184,7 +209,7 @@ export default class OpenOrderWidget extends LightningElement {
         layout: {
           padding: {
             left: 0,
-            right: 0,
+            right: 40,
             top: 0,
             bottom: 0,
           },
@@ -230,8 +255,6 @@ export default class OpenOrderWidget extends LightningElement {
 
       this.ooChart = new window.Chart(this.chartCanvas, chartConfig);
 
-      this.setValuesAbove(this.ooChart);
-
       Chart.plugins.register({
         afterDraw: this.setValuesAboveHandler.bind(this),
       });
@@ -252,21 +275,26 @@ export default class OpenOrderWidget extends LightningElement {
 
         const ctx = chartInstance.chart.ctx;
 
-        ctx.font = Chart.helpers.fontString(12, 'normal', 'Segoe UI');
         ctx.textAlign = 'center';
         ctx.textBaseline = 'bottom';
 
         chartInstance.data.datasets.forEach(function (dataset) {
           dataset.data.forEach((elem, index) => {
-            ctx.fillStyle = '#2B2826';
             const model =
               dataset._meta[Object.keys(dataset._meta)[0]].data[index]._model;
-            const xScale =
-              dataset._meta[Object.keys(dataset._meta)[0]].data[index]._xScale;
-            const scaleMax = xScale.maxWidth;
-            const yPos =
-              model.y +
-              ctx.measureText(dataset.data[index]).fontBoundingBoxAscent / 2;
+            const chart =
+              dataset._meta[Object.keys(dataset._meta)[0]].data[index]._chart;
+            ctx.font = Chart.helpers.fontString(
+              model.height > 13 ? 13 : model.height,
+              'normal',
+              'Segoe UI'
+            );
+
+            const scaleMax = chart.width;
+            const height = ctx.measureText(
+              dataset.data[index]
+            ).actualBoundingBoxAscent;
+            const yPos = model.y + height / 2;
 
             let xPos;
 
@@ -277,8 +305,9 @@ export default class OpenOrderWidget extends LightningElement {
               ctx.fillStyle = '#2B2826';
             } else {
               xPos = model.x - DEFAULT_X_GAP_LEFT;
+              const width = ctx.measureText(dataset.data[index]).width;
               ctx.fillStyle = '#9D53F2';
-              ctx.fillText(dataset.data[index], xPos, yPos);
+              ctx.fillRect(xPos - width / 2, yPos - height, width, height);
               ctx.fillStyle = '#ffffff';
             }
 

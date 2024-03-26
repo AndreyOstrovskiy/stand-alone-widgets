@@ -3,7 +3,7 @@ import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
 import chartjs from '@salesforce/resourceUrl/ChartjsLibrary';
 import Common from 'c/common_Widget';
 
-export default class CapacityAlertWidget extends LightningElement {
+export default class CapacityAlertWidgetForCanada extends LightningElement {
   @api widgetData;
   data;
   meta;
@@ -45,10 +45,18 @@ export default class CapacityAlertWidget extends LightningElement {
         return day.date_to_display;
       }),
       values: data.days.map((day) => {
-        return +day.number_of_trucks;
+        return day.heated_trucks
+          ? +day.number_of_trucks - day.heated_trucks
+          : +day.number_of_trucks;
       }),
-      colours: data.days.map((day) => {
-        return day.is_over_limit === 'true' ? '#F2536D' : '#3290ED';
+      colours: data.days.map(() => {
+        return '#3290ED';
+      }),
+      valuesHeated: data.days.map((day) => {
+        return parseInt(day.heated_trucks ?? 0);
+      }),
+      coloursHeated: data.days.map(() => {
+        return '#F2536D';
       }),
     };
   }
@@ -63,10 +71,16 @@ export default class CapacityAlertWidget extends LightningElement {
       const labels = parsedData.labels;
       const values = parsedData.values;
       const colours = parsedData.colours;
+      const valuesHeated = parsedData.valuesHeated;
+      const coloursHeated = parsedData.coloursHeated;
 
       const caData = {
         labels: labels,
         datasets: [
+          {
+            data: valuesHeated,
+            backgroundColor: coloursHeated,
+          },
           {
             data: values,
             backgroundColor: colours,
@@ -100,6 +114,7 @@ export default class CapacityAlertWidget extends LightningElement {
           xAxes: [
             {
               display: true,
+              stacked: true,
               gridLines: {
                 display: false,
               },
@@ -115,11 +130,15 @@ export default class CapacityAlertWidget extends LightningElement {
           yAxes: [
             {
               display: false,
+              stacked: true,
               gridLines: {
                 display: false,
               },
               ticks: {
-                max: Math.max(...caData.datasets[0].data) + 1,
+                max:
+                  Math.max(...caData.datasets[0].data) +
+                  Math.max(...caData.datasets[1].data) +
+                  1,
                 display: false,
                 beginAtZero: true,
                 stepSize: 1,
@@ -367,35 +386,38 @@ export default class CapacityAlertWidget extends LightningElement {
         ctx.textBaseline = 'bottom';
         ctx.fillStyle = '#2B2826';
 
-        chartInstance.data.datasets.forEach((dataset) => {
-          dataset.data.forEach((elem, index) => {
-            const model =
-              dataset._meta[Object.keys(dataset._meta)[0]].data[index]._model;
-            const scaleMax =
-              dataset._meta[Object.keys(dataset._meta)[0]].data[index]._yScale
-                .maxHeight;
-            let yPos;
-            if ((scaleMax - model.y) / scaleMax >= 0.8) {
-              yPos = model.y + DEFAULT_TOP_GAP;
-              const width = ctx.measureText(dataset.data[index]).width;
-              const height = ctx.measureText(
-                dataset.data[index]
-              ).actualBoundingBoxAscent;
-              ctx.fillStyle =
-                this.data.days[index].is_over_limit === 'true'
-                  ? '#F2536D'
-                  : '#3290ED';
-              ctx.fillRect(model.x - width / 2, yPos - height, width, height);
-              ctx.fillStyle = '#ffffff';
-            } else {
-              yPos = model.y - DEFAULT_BUTTOM_GAP;
-              ctx.fillStyle = '#ffffff';
-              ctx.fillText(dataset.data[index], model.x, yPos);
-              ctx.fillStyle = '#2B2826';
-            }
+        const dataset = chartInstance.data.datasets[1];
 
-            ctx.fillText(dataset.data[index], model.x, yPos);
-          });
+        dataset.data.forEach((elem, index) => {
+          const model =
+            dataset._meta[Object.keys(dataset._meta)[0]].data[index]._model;
+          const scaleMax =
+            dataset._meta[Object.keys(dataset._meta)[0]].data[index]._yScale
+              .maxHeight;
+          let yPos;
+
+          if ((scaleMax - model.y) / scaleMax >= 0.8) {
+            yPos = model.y + DEFAULT_TOP_GAP;
+            const width = ctx.measureText(
+              this.data.days[index].number_of_trucks
+            ).width;
+            const height = ctx.measureText(
+              this.data.days[index].number_of_trucks
+            ).actualBoundingBoxAscent;
+            ctx.fillStyle =
+              this.data.days[index].is_over_limit === 'true'
+                ? '#F2536D'
+                : '#3290ED';
+            ctx.fillRect(model.x - width / 2, yPos - height, width, height);
+            ctx.fillStyle = '#ffffff';
+          } else {
+            yPos = model.y - DEFAULT_BUTTOM_GAP;
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText(this.data.days[index].number_of_trucks, model.x, yPos);
+            ctx.fillStyle = '#2B2826';
+          }
+
+          ctx.fillText(this.data.days[index].number_of_trucks, model.x, yPos);
         });
       }
     } catch (error) {

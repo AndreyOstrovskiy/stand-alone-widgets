@@ -1,41 +1,80 @@
 import { LightningElement, track } from 'lwc';
-export default class WidgetContainer extends LightningElement {
+export default class DeliveryBlocksWidgetContainer extends LightningElement {
   jsonData;
   template1 = `
- {
-  "end_MBDAT": "10.10.2023",
-  "open_orders_summary_value": "115631232.23",
-  "currency": "EUR",
-  "open_orders_MSU": "97.5",
-  "start_MBDAT": "01.01.2020",
-  "categories": [
-    { "name": "Oral Care", "value": "2.8" },
-    { "name": "Baby Care", "value": "15.6" },
-    { "name": "Appliances", "value": "12.3" },
-    { "name": "Fabric Care", "value": "16.8" },
-    { "name": "Shave Care", "value": "0.8" },
-    { "name": "Home Care", "value": "8.8" },
-    { "name": "Hair Care", "value": "0.1" },
-    { "name": "Feminine Care", "value": "0.3" }
+  {
+  "delivery_blocks_total": "1245",
+  "from_date": "19.03.2024",
+  "delivery_blocks": [
+    {
+      "name": "E1",
+      "value": "0"
+    },
+    {
+      "name": "S4",
+      "value": "4"
+    },
+    {
+      "name": "LO",
+      "value": "11"
+    },
+    {
+      "name": "09",
+      "value": "320"
+    },
+    {
+      "name": "ZE",
+      "value": "62"
+    },
+    {
+      "name": "ZR",
+      "value": "27"
+    },
+    {
+      "name": "Others",
+      "value": "821"
+    }
   ]
 }
-    `;
+
+  `;
   template2 = `
   {
-  "end_MBDAT": "01.05.2024",
-  "open_orders_summary_value": "631232.23",
-  "currency": "USD",
-  "open_orders_MSU": "47.5",
-  "start_MBDAT": "01.01.2024",
-  "categories": [
-    { "name": "Oral Care", "value": "2.8" },
-    { "name": "Baby Care", "value": "5.6" },
-    { "name": "Appliances", "value": "2.3" },
-    { "name": "Fabric Care", "value": "6.8" },
-    { "name": "Home Care", "value": "8.8" }
+  "delivery_blocks_total": "100",
+  "from_date": "06.02.2024",
+  "delivery_blocks": [
+    {
+      "name": "E1",
+      "value": "10"
+    },
+    {
+      "name": "S4",
+      "value": "20"
+    },
+    {
+      "name": "LO",
+      "value": "35"
+    },
+    {
+      "name": "09",
+      "value": "5"
+    },
+    {
+      "name": "ZE",
+      "value": "5"
+    },
+    {
+      "name": "ZR",
+      "value": "15"
+    },
+    {
+      "name": "Others",
+      "value": "10"
+    }
   ]
 }
-    `;
+
+  `;
   template1BtnClickCallback;
   template2BtnClickCallback;
   widgetComponent;
@@ -48,9 +87,6 @@ export default class WidgetContainer extends LightningElement {
       );
       const template2Btn = this.template.querySelector(
         '[data-id="dataTemplate2"]'
-      );
-      const widgetComponent = this.template.querySelector(
-        'c-open-order-widget'
       );
 
       this.template1BtnClickCallback = this.template1BtnClickHandler.bind(this);
@@ -69,12 +105,17 @@ export default class WidgetContainer extends LightningElement {
 
   template1BtnClickHandler() {
     this.jsonData = this.template1;
-    this.widgetComponent = this.template.querySelector('c-open-order-widget');
+    this.widgetComponent = this.template.querySelector(
+      'c-delivery-blocks-widget'
+    );
     this.widgetComponent.setWidgetData(this.jsonData);
   }
+
   template2BtnClickHandler() {
     this.jsonData = this.template2;
-    this.widgetComponent = this.template.querySelector('c-open-order-widget');
+    this.widgetComponent = this.template.querySelector(
+      'c-delivery-blocks-widget'
+    );
     this.widgetComponent.setWidgetData(this.jsonData);
   }
 }
